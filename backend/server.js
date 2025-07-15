@@ -3,9 +3,13 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const http = require('http');
 const socketIo = require('socket.io');
+const connectDB = require('./config/db');
+const PORT = process.env.PORT || 5000;
 
 // Load env vars
 dotenv.config();
+// Connect to MongoDB
+connectDB();
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
@@ -44,5 +48,10 @@ io.on('connection', (socket) => {
     console.log('User disconnected:', socket.id);
   });
 });
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
 
 module.exports = server;
